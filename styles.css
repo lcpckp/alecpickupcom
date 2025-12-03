@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cutive Mono', monospace;
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 14px;
+    font-weight: normal;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #888888;
+    font-size: 14px;
+}
+
+nav {
+    margin-bottom: 30px;
+    padding: 10px 0;
+    border-top: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 15px;
+    font-size: 14px;
+}
+
+main {
+    margin-bottom: 30px;
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 14px;
+    font-weight: normal;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.content {
+    padding-left: 20px;
+}
+
+p {
+    margin-bottom: 10px;
+    color: #888888;
+    font-size: 14px;
+}
+
+.project {
+    margin-bottom: 15px;
+}
+
+.project h3 {
+    font-size: 14px;
+    font-weight: normal;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+.project-desc {
+    color: #888888;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.project-links {
+    margin-top: 5px;
+}
+
+.project-links a,
+.contact-links a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.contact-links {
+    margin-top: 10px;
+}
+
+footer {
+    padding-top: 20px;
+    border-top: 1px solid #333333;
+    color: #888888;
+    font-size: 14px;
+}
