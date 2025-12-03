@@ -10,7 +10,7 @@ body {
     font-family: 'Cutive Mono', monospace;
     background-color: #000000;
     color: #ffffff;
-    font-size: 14px;
+    font-size: 18px;
     line-height: 1.5;
     padding: 20px;
 }
@@ -25,14 +25,14 @@ header {
 }
 
 h1 {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: normal;
     margin-bottom: 5px;
 }
 
 .subtitle {
     color: #888888;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 nav {
@@ -46,7 +46,7 @@ nav a {
     color: #ffffff;
     text-decoration: none;
     margin-right: 15px;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 main {
@@ -58,7 +58,7 @@ main {
 }
 
 h2 {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: normal;
     margin-bottom: 10px;
     color: #ffffff;
@@ -71,7 +71,7 @@ h2 {
 p {
     margin-bottom: 10px;
     color: #888888;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .project {
@@ -79,7 +79,7 @@ p {
 }
 
 .project h3 {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: normal;
     margin-bottom: 5px;
     color: #ffffff;
@@ -88,7 +88,7 @@ p {
 .project-desc {
     color: #888888;
     margin-bottom: 5px;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .project-links {
@@ -100,7 +100,7 @@ p {
     color: #ffffff;
     text-decoration: none;
     margin-right: 10px;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .contact-links {
@@ -111,5 +111,5 @@ footer {
     padding-top: 20px;
     border-top: 1px solid #333333;
     color: #888888;
-    font-size: 14px;
+    font-size: 18px;
 }
