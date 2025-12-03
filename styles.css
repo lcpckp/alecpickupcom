@@ -74,13 +74,33 @@ p {
     font-size: 18px;
 }
 
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding-left: 20px;
+}
+
 .project {
-    margin-bottom: 15px;
+    margin-bottom: 0;
+}
+
+.project a {
+    display: block;
+    text-decoration: none;
+}
+
+.project-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border: 1px solid #333333;
+    display: block;
 }
 
 .project h3 {
-    font-size: 18px;
-    font-weight: normal;
+    font-size: 22px;
+    font-weight: bold;
     margin-bottom: 5px;
     color: #ffffff;
 }
@@ -98,7 +118,7 @@ p {
 .project-links a,
 .contact-links a {
     color: #ffffff;
-    text-decoration: none;
+    text-decoration: underline;
     margin-right: 10px;
     font-size: 18px;
 }
