@@ -6,6 +6,11 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 body {
     font-family: 'Cutive Mono', monospace;
     background-color: #000000;
@@ -13,11 +18,16 @@ body {
     font-size: 18px;
     line-height: 1.5;
     padding: 20px;
+    scrollbar-gutter: stable;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .container {
     max-width: 800px;
     margin: 0 auto;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 header {
@@ -55,6 +65,7 @@ main {
 
 .section {
     margin-bottom: 30px;
+    width: 100%;
 }
 
 h2 {
@@ -62,10 +73,60 @@ h2 {
     font-weight: normal;
     margin-bottom: 10px;
     color: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+h2 a {
+    color: #ffffff;
+    text-decoration: underline;
+    font-size: 18px;
+}
+
+h2 a:visited {
+    color: #ffffff;
+}
+
+h2 a:hover {
+    color: #ffffff;
+}
+
+.accordion-header {
+    cursor: pointer;
+    user-select: none;
+    text-decoration: underline;
+}
+
+.accordion-header:hover {
+    color: #ffffff;
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    padding-left: 20px;
+}
+
+.accordion-section.active .accordion-content {
+    max-height: 2000px;
+    transition: max-height 0.3s ease-in;
 }
 
 .content {
     padding-left: 20px;
+}
+
+.content a {
+    color: #ffffff;
+    text-decoration: underline;
+    font-size: 18px;
+}
+
+.accordion-content a {
+    color: #ffffff;
+    text-decoration: underline;
+    font-size: 18px;
 }
 
 p {
@@ -79,10 +140,15 @@ p {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     padding-left: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .project {
     margin-bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .project a {
@@ -132,4 +198,66 @@ footer {
     border-top: 1px solid #333333;
     color: #888888;
     font-size: 18px;
+}
+
+.waitlist-form {
+    margin-top: 10px;
+    padding-left: 0;
+}
+
+.waitlist-form input {
+    width: 100%;
+    max-width: 360px;
+    padding: 10px 12px;
+    margin: 0 0 10px 0;
+    background-color: #000000;
+    border: 1px solid #333333;
+    color: #ffffff;
+    font-family: 'Cutive Mono', monospace;
+    font-size: 18px;
+    display: block;
+}
+
+.waitlist-prompt {
+    color: #888888;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.waitlist-form input::placeholder {
+    color: #666666;
+}
+
+.waitlist-form button {
+    padding: 10px 14px;
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    cursor: pointer;
+    font-family: 'Cutive Mono', monospace;
+    font-size: 18px;
+}
+
+.waitlist-form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.waitlist-status {
+    margin-top: 10px;
+    color: #888888;
+    font-size: 18px;
+    min-height: 1.2em;
+}
+
+.waitlist-status[data-kind="error"] {
+    color: #ff4d4d;
+}
+
+.waitlist-status[data-kind="success"] {
+    color: #4dff88;
+}
+
+.waitlist-status[data-kind="pending"] {
+    color: #888888;
 }

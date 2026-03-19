@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alec Pickup</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 </head>
 <body>
     <div class="container">
@@ -13,46 +16,51 @@
         </header>
 
         <main>
-            <section id="projects" class="section">
-                <h2>projects</h2>
-                <div class="projects-grid">
-                    <div class="project">
-                        <a href="https://lcpckp.github.io/stack-merge/" target="_blank">
-                            <img src="images/stackmergepreview.png" alt="Stack Merge preview" class="project-image">
-                        </a>
-                        <h3>Stack Merge</h3>
-                        <div class="project-links">
-                            <a href="https://github.com/lcpckp/stack-merge" target="_blank">github</a>
-                            <a href="https://lcpckp.github.io/stack-merge/" target="_blank">demo</a>
-                            <a href="#" target="_blank">app store</a>
-                        </div>
+            <section id="games" class="section accordion-section">
+                <h2 class="accordion-header">games</h2>
+                <div class="accordion-content">
+                    <p><a href="https://lcpckp.github.io/stack-merge/" target="_blank">Stack Merge</a> - An addictive, block-stacking puzzle game. Android and iOS apps coming soon!</p>
+                    
+                    <form id="stack-merge-waitlist-form" class="waitlist-form" novalidate onsubmit="return window.stackMergeWaitlistSubmit(event);">
+                        <p class="waitlist-prompt">Become a beta tester for the mobile version! Sign up below:</p>
+                        <input
+                            id="stack-merge-email"
+                            name="email"
+                            type="email"
+                            inputmode="email"
+                            autocomplete="email"
+                            placeholder="email address"
+                            required
+                        />
+                        <button id="stack-merge-waitlist-submit" type="submit">Join waitlist</button>
+                        <div id="stack-merge-waitlist-status" class="waitlist-status" role="status" aria-live="polite"></div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="tools" class="section accordion-section">
+                <h2 class="accordion-header">tools</h2>
+                <div class="accordion-content">
+                    <p>Tools coming soon.</p>
+                    <div class="projects-grid">
                     </div>
-                    <div class="project">
-                        <a href="https://lcpckp.github.io/quick-palette/" target="_blank">
-                            <img src="images/quickpalettepreview.png" alt="Quick Palette preview" class="project-image">
-                        </a>
-                        <h3>Quick Palette</h3>
-                        <div class="project-links">
-                            <a href="https://github.com/lcpckp/quick-palette" target="_blank">github</a>
-                            <a href="https://lcpckp.github.io/quick-palette/" target="_blank">demo</a>
-                        </div>
-                    </div>
-                    <div class="project">
-                        <a href="https://lockpickup.itch.io/ant-farm" target="_blank">
-                            <img src="images/antfarmpreview.png" alt="Ant Farm preview" class="project-image">
-                        </a>
-                        <h3>Ant Farm</h3>
-                        <div class="project-links">
-                            <a href="https://github.com/lcpckp/AntFarm" target="_blank">github</a>
-                            <a href="https://lockpickup.itch.io/ant-farm" target="_blank">itch.io</a>
-                        </div>
-                    </div>
-                    <div class="project">
-                        <h3>Photography Portfolio</h3>
-                        <div class="project-links">
-                            <a href="#" target="_blank">View Photos</a>
-                        </div>
-                    </div>
+                </div>
+            </section>
+
+            <section id="photography" class="section accordion-section">
+                <h2 class="accordion-header">photography</h2>
+                <div class="accordion-content">
+                    <p>Photography portfolio coming soon.</p>
+                </div>
+            </section>
+
+            <section id="chess" class="section accordion-section">
+                <h2 class="accordion-header">chess</h2>
+                <div class="accordion-content">
+                    <p><a href="https://lichess.org/@/lcpckp" target="_blank">Lichess.org Profile</a></p>
+                    <p><a href="https://www.chess.com/member/lcpckp" target="_blank">Chess.com Profile</a></p>
+                    <p><a href="https://ratings.uschess.org/player/30849239" target="_blank">USCF Profile</a></p>
+                    <p><a href="https://lichess.org/study/search?q=owner%3Alcpckp+" target="_blank">OTB Tournament Games</a></p>
                 </div>
             </section>
 
