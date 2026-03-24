@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack Merge Support</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Alec Pickup</h1>
+        </header>
+
+        <main>
+            <section id="stack-merge-support" class="section">
+                <h2>Stack Merge Support</h2>
+                <div class="content">
+                    <p>Need help with Stack Merge? Fill out the form below and your email app will open a message to support.</p>
+
+                    <form id="stack-merge-support-form" class="waitlist-form" novalidate onsubmit="return window.stackMergeSupportSubmit(event);">
+                        <input
+                            id="stack-merge-support-name"
+                            name="name"
+                            type="text"
+                            autocomplete="name"
+                            placeholder="name"
+                            required
+                        />
+                        <input
+                            id="stack-merge-support-email"
+                            name="email"
+                            type="email"
+                            inputmode="email"
+                            autocomplete="email"
+                            placeholder="email address"
+                            required
+                        />
+                        <textarea
+                            id="stack-merge-support-message"
+                            name="message"
+                            rows="6"
+                            placeholder="description / question"
+                            required
+                        ></textarea>
+                        <button id="stack-merge-support-submit" type="submit">Send support request</button>
+                        <div id="stack-merge-support-status" class="waitlist-status" role="status" aria-live="polite"></div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

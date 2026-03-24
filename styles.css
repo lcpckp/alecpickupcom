@@ -229,6 +229,20 @@ footer {
     display: block;
 }
 
+.waitlist-form textarea {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px 12px;
+    margin: 0 0 10px 0;
+    background-color: #000000;
+    border: 1px solid #333333;
+    color: #ffffff;
+    font-family: 'Cutive Mono', monospace;
+    font-size: 18px;
+    display: block;
+    resize: vertical;
+}
+
 .waitlist-prompt {
     color: #888888;
     font-size: 18px;
@@ -236,6 +250,10 @@ footer {
 }
 
 .waitlist-form input::placeholder {
+    color: #666666;
+}
+
+.waitlist-form textarea::placeholder {
     color: #666666;
 }
 
