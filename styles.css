@@ -243,12 +243,6 @@ footer {
     resize: vertical;
 }
 
-.waitlist-prompt {
-    color: #888888;
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
 .waitlist-form input::placeholder {
     color: #666666;
 }
@@ -289,4 +283,29 @@ footer {
 
 .waitlist-status[data-kind="pending"] {
     color: #888888;
+}
+
+.store-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin: 10px 0 10px 0;
+}
+
+.store-badges a {
+    text-decoration: none;
+    display: inline-block;
+    line-height: 0;
+}
+
+.store-badges a:hover {
+    opacity: 0.85;
+}
+
+.store-badge-img {
+    height: 56px;
+    width: auto;
+    max-width: 100%;
+    display: block;
 }
