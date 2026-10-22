@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Three Utilities - Alec Pickup</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;800&family=Barlow:wght@400;500;600&family=Cutive+Mono&display=swap">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; }
+[hidden] { display: none !important; }
+
+/* Layout: a utility plan sheet. Board on the left, a locator's field panel on the right; stacks on phones. */
+:root {
+  --paper: #edf0ee;
+  --grid: #d8dfdb;
+  --panel: #f7f9f7;
+  --ink: #1c2521;
+  --muted: #5a6761;
+  --rule: #c9d2cd;
+  --casing: #1c2521;
+  --water: #1f6fd1;
+  --gas: #e2ad00;
+  --electric: #d3312b;
+  --survey: #c0237f;
+  --display: "Big Shoulders Stencil Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --mono: "Cutive Mono", "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121815; --grid: #1d2722; --panel: #171f1b; --ink: #e2e9e5; --muted: #8e9b95;
+    --rule: #2b3631; --casing: #070a09; --water: #4f98f2; --gas: #f2c533; --electric: #f15b4f; --survey: #f066b4;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #121815; --grid: #1d2722; --panel: #171f1b; --ink: #e2e9e5; --muted: #8e9b95;
+  --rule: #2b3631; --casing: #070a09; --water: #4f98f2; --gas: #f2c533; --electric: #f15b4f; --survey: #f066b4;
+  color-scheme: dark;
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-block: 32px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  gap: 24px;
+}
+header { display: grid; gap: 6px; max-width: 62ch; }
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+h1 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(44px, 8vw, 76px);
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin: 0;
+  text-wrap: balance;
+}
+.lede { margin: 6px 0 0; color: var(--ink); }
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+
+.board {
+  position: relative;
+  border: 1px solid var(--rule);
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 25px 25px;
+  background-position: -1px -1px;
+}
+.board svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 6 / 5;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.sheet-tag {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.node { cursor: crosshair; }
+.node .ring { fill: var(--panel); stroke: var(--casing); stroke-width: 7; }
+.node .ring-color { fill: none; stroke-width: 4; }
+.node .glyph { stroke: var(--casing); stroke-width: 1.5; stroke-linejoin: round; }
+.node .house-body { fill: var(--panel); stroke: var(--casing); stroke-width: 3; }
+.node .house-num { font-family: var(--display); font-weight: 800; font-size: 22px; fill: var(--ink); }
+.node-label { font-family: var(--mono); font-size: 15px; fill: var(--ink); pointer-events: none; }
+.node.hot .ring, .node.hot .house-body { stroke: var(--survey); }
+.node.bad .ring, .node.bad .house-body { stroke-dasharray: 4 4; }
+.node.source .ring, .node.source .house-body { stroke-width: 9; }
+
+.line-casing { fill: none; stroke: var(--casing); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; }
+.line-color { fill: none; stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; }
+.line-hit { fill: none; stroke: transparent; stroke-width: 18; cursor: pointer; pointer-events: stroke; }
+.line-group:hover .line-casing { stroke: var(--survey); }
+.draft { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 9 7; }
+.draft.rejected { stroke: var(--survey) !important; animation: fade 0.9s ease forwards; }
+.cross-mark { stroke: var(--survey); stroke-width: 3; fill: none; }
+.cross-mark.fading { animation: fade 1.6s ease forwards; }
+@keyframes fade { 0%, 40% { opacity: 1; } 100% { opacity: 0; } }
+.hint-text { font-family: var(--mono); font-size: 15px; fill: var(--muted); pointer-events: none; }
+
+aside {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  padding: 20px;
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+.section-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+.count {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--display);
+  font-weight: 800;
+  line-height: 1;
+}
+.count .big { font-size: 64px; font-variant-numeric: tabular-nums; }
+.count .of { font-size: 28px; color: var(--muted); }
+.status {
+  margin: 8px 0 0;
+  min-height: 3em;
+}
+.status.warn { color: var(--survey); font-weight: 600; }
+.status.win { color: var(--water); font-weight: 600; }
+
+.matrix { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.matrix th {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--muted);
+  padding: 4px;
+  text-align: center;
+}
+.matrix th[scope="row"] { text-align: left; color: var(--ink); white-space: nowrap; }
+.matrix td { padding: 4px; text-align: center; }
+.cell {
+  display: block;
+  height: 22px;
+  border: 1.5px dashed var(--rule);
+  border-radius: 3px;
+}
+.cell.on { border: 2px solid var(--casing); }
+
+.controls { display: flex; flex-wrap: wrap; gap: 8px; }
+button {
+  font: 600 15px/1 var(--body);
+  color: var(--ink);
+  background: transparent;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+button:hover:not(:disabled) { background: var(--ink); color: var(--panel); }
+button:focus-visible { outline: 3px solid var(--survey); outline-offset: 2px; }
+button:disabled { opacity: 0.4; cursor: default; }
+
+.stats { display: flex; gap: 20px; font-family: var(--mono); font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.stats b { color: var(--ink); font-weight: 400; }
+
+.legend { display: grid; gap: 6px; font-size: 14px; color: var(--muted); }
+.legend div { display: flex; align-items: center; gap: 8px; }
+.swatch { width: 22px; height: 6px; border-radius: 3px; outline: 2px solid var(--casing); flex: none; }
+
+details { border-top: 1px solid var(--rule); padding-top: 14px; }
+summary { cursor: pointer; font-weight: 600; }
+summary:focus-visible { outline: 3px solid var(--survey); outline-offset: 2px; }
+details p { margin: 10px 0 0; font-size: 15px; max-width: 62ch; }
+.math { font-family: var(--mono); font-size: 14px; background: var(--paper); padding: 1px 4px; border-radius: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .draft.rejected, .cross-mark.fading { animation-duration: 0.01s; animation-delay: 0.6s; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Graph theory puzzle · K<sub>3,3</sub></div>
+    <h1>Three Utilities</h1>
+    <p class="lede">Connect water, gas and electricity to all three houses. Drag from a utility to a house to lay a line. Lines can bend however you like, but they can't cross each other or run through a building.</p>
+  </header>
+
+  <div class="layout">
+    <div class="board">
+      <svg id="board" viewBox="0 0 600 500" role="img" aria-label="Puzzle board with three utilities across the top and three houses along the bottom">
+        <g id="lines"></g>
+        <path id="draft" class="draft" d=""></path>
+        <g id="marks"></g>
+        <g id="nodes"></g>
+        <text id="hint" class="hint-text" x="300" y="258" text-anchor="middle">Drag from a utility to a house</text>
+      </svg>
+      <div class="sheet-tag">SHEET 1 OF 1 · PLAN VIEW</div>
+    </div>
+
+    <aside>
+      <div>
+        <p class="section-label">Lines laid</p>
+        <div class="count"><span class="big" id="count">0</span><span class="of">/ 9</span></div>
+        <p class="status" id="status" aria-live="polite">Every house needs all three utilities.</p>
+      </div>
+
+      <div>
+        <p class="section-label">Service connections</p>
+        <table class="matrix" id="matrix">
+          <thead><tr><th></th><th scope="col">House 1</th><th scope="col">House 2</th><th scope="col">House 3</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="controls">
+        <button type="button" id="undo">Undo last line</button>
+        <button type="button" id="reset">Start over</button>
+      </div>
+
+      <div class="stats">
+        <span>Rejected attempts <b id="attempts">0</b></span>
+      </div>
+
+      <div class="legend">
+        <div><span class="swatch" style="background: var(--water)"></span>Water</div>
+        <div><span class="swatch" style="background: var(--gas)"></span>Gas</div>
+        <div><span class="swatch" style="background: var(--electric)"></span>Electric</div>
+        <div><span class="swatch" style="background: var(--survey)"></span>Conflict marks</div>
+        <p style="margin: 4px 0 0">Colors follow the APWA uniform color code that locators spray on the street: blue for water, yellow for gas, red for power, pink for temporary survey marks. Click a laid line to remove it.</p>
+      </div>
+
+      <details id="why">
+        <summary>Why the ninth line never fits</summary>
+        <p>On a flat sheet, any connected drawing without crossings obeys Euler's formula: <span class="math">V − E + F = 2</span>. Here there are 6 buildings and 9 lines, so a finished drawing would split the sheet into <span class="math">F = 5</span> regions.</p>
+        <p>Every line joins a utility to a house, so no region can be a triangle. Each region needs at least 4 lines around it, and each line borders 2 regions. That means <span class="math">4F ≤ 2E</span>, or <span class="math">20 ≤ 18</span>, which is false.</p>
+        <p>So you can always place 8 lines, and the ninth must cross something. Mathematicians call this graph K<sub>3,3</sub>, and it's one of the two basic shapes that can't be drawn flat. On the surface of a donut, though, it fits.</p>
+      </details>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function () {
+  const NS = "http://www.w3.org/2000/svg";
+  const R = 30;
+  const W = 600, H = 500;
+  const UTILS = [
+    { id: "water", kind: "u", label: "Water", x: 150, y: 92, color: "var(--water)",
+      glyph: "M0,-15 C6,-6 11,-1 11,5 A11,11 0 0 1 -11,5 C-11,-1 -6,-6 0,-15Z" },
+    { id: "gas", kind: "u", label: "Gas", x: 300, y: 92, color: "var(--gas)",
+      glyph: "M1,-16 C8,-7 11,-2 10,5 C9,11 5,14 0,14 C-5,14 -9,11 -10,5 C-11,-1 -6,-5 -4,-11 C-2,-6 1,-5 1,-5 C2,-9 2,-13 1,-16Z" },
+    { id: "electric", kind: "u", label: "Electric", x: 450, y: 92, color: "var(--electric)",
+      glyph: "M4,-16 L-9,2 L-1,2 L-4,16 L9,-3 L1,-3 Z" },
+  ];
+  const HOUSES = [1, 2, 3].map((n, i) => ({ id: "h" + n, kind: "h", label: "House " + n, num: n, x: 150 + i * 150, y: 408 }));
+  const NODES = UTILS.concat(HOUSES);
+  const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
+
+  const svg = document.getElementById("board");
+  const linesG = document.getElementById("lines");
+  const marksG = document.getElementById("marks");
+  const nodesG = document.getElementById("nodes");
+  const draft = document.getElementById("draft");
+  const hint = document.getElementById("hint");
+  const statusEl = document.getElementById("status");
+  const countEl = document.getElementById("count");
+  const attemptsEl = document.getElementById("attempts");
+  const undoBtn = document.getElementById("undo");
+  const resetBtn = document.getElementById("reset");
+  const matrixBody = document.querySelector("#matrix tbody");
+
+  let lines = [];      // { u, h, pts: [[x,y], ...] }
+  let attempts = 0;
+  let drawing = null;  // { from, pts, crossings: [] }
+  let rejectTimer = null;
+
+  function el(tag, attrs, parent) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  // ---- nodes ----
+  const nodeEls = {};
+  NODES.forEach(n => {
+    const g = el("g", { class: "node", transform: `translate(${n.x},${n.y})` }, nodesG);
+    if (n.kind === "u") {
+      el("circle", { class: "ring", r: R }, g);
+      el("circle", { class: "ring-color", r: R, stroke: n.color }, g);
+      el("path", { class: "glyph", d: n.glyph, fill: n.color }, g);
+      el("text", { class: "node-label", y: -R - 12, "text-anchor": "middle" }, g).textContent = n.label;
+    } else {
+      el("path", { class: "house-body", d: "M-27,-4 L0,-30 L27,-4 L21,-4 L21,26 L-21,26 L-21,-4 Z" }, g);
+      el("text", { class: "house-num", y: 19, "text-anchor": "middle" }, g).textContent = n.num;
+      el("text", { class: "node-label", y: R + 26, "text-anchor": "middle" }, g).textContent = n.label;
+    }
+    nodeEls[n.id] = g;
+  });
+
+  // ---- matrix ----
+  UTILS.forEach(u => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<th scope="row">${u.label}</th>` +
+      HOUSES.map(h => `<td><span class="cell" data-key="${u.id}-${h.id}" title="${u.label} to ${h.label}"></span></td>`).join("");
+    matrixBody.appendChild(tr);
+  });
+
+  // ---- geometry ----
+  function toSvg(e) {
+    const p = svg.createSVGPoint();
+    p.x = e.clientX; p.y = e.clientY;
+    const q = p.matrixTransform(svg.getScreenCTM().inverse());
+    return [Math.max(4, Math.min(W - 4, q.x)), Math.max(4, Math.min(H - 4, q.y))];
+  }
+  const dist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+  function nodeAt(p, rad) {
+    let best = null, bd = Infinity;
+    NODES.forEach(n => { const d = dist(p, [n.x, n.y]); if (d < rad && d < bd) { bd = d; best = n; } });
+    return best;
+  }
+  function nearAnyNode(p) { return NODES.some(n => dist(p, [n.x, n.y]) < R + 3); }
+  function segIntersect(a, b, c, d) {
+    const r0 = b[0] - a[0], r1 = b[1] - a[1], s0 = d[0] - c[0], s1 = d[1] - c[1];
+    const den = r0 * s1 - r1 * s0;
+    if (Math.abs(den) < 1e-9) return null;
+    const t = ((c[0] - a[0]) * s1 - (c[1] - a[1]) * s0) / den;
+    const u = ((c[0] - a[0]) * r1 - (c[1] - a[1]) * r0) / den;
+    if (t < 0 || t > 1 || u < 0 || u > 1) return null;
+    return [a[0] + t * r0, a[1] + t * r1];
+  }
+  function segPointDist(a, b, p) {
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    const len2 = dx * dx + dy * dy;
+    let t = len2 ? ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / len2 : 0;
+    t = Math.max(0, Math.min(1, t));
+    return dist(p, [a[0] + t * dx, a[1] + t * dy]);
+  }
+  function crossingsFor(a, b) {
+    const out = [];
+    lines.forEach(l => {
+      for (let i = 1; i < l.pts.length; i++) {
+        const x = segIntersect(a, b, l.pts[i - 1], l.pts[i]);
+        if (x && !nearAnyNode(x)) out.push({ pt: x, line: l });
+      }
+    });
+    return out;
+  }
+  const toD = pts => pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+
+  // ---- rendering ----
+  function addMark(pt, fading) {
+    const g = el("g", { class: "cross-mark" + (fading ? " fading" : "") }, marksG);
+    el("circle", { cx: pt[0], cy: pt[1], r: 11 }, g);
+    el("path", { d: `M${pt[0] - 6} ${pt[1] - 6} L${pt[0] + 6} ${pt[1] + 6} M${pt[0] + 6} ${pt[1] - 6} L${pt[0] - 6} ${pt[1] + 6}` }, g);
+  }
+
+  function render() {
+    linesG.innerHTML = "";
+    lines.forEach(l => {
+      const g = el("g", { class: "line-group" }, linesG);
+      const d = toD(l.pts);
+      el("path", { class: "line-casing", d }, g);
+      el("path", { class: "line-color", d, stroke: byId[l.u].color }, g);
+      const hit = el("path", { class: "line-hit", d }, g);
+      const t = el("title", {}, hit);
+      t.textContent = `${byId[l.u].label} to ${byId[l.h].label}. Click to remove.`;
+      hit.addEventListener("pointerdown", e => {
+        if (drawing) return;
+        e.stopPropagation();
+        lines = lines.filter(x => x !== l);
+        say(`Removed the ${byId[l.u].label.toLowerCase()} line to ${byId[l.h].label}.`);
+        render();
+      });
+    });
+    document.querySelectorAll(".cell").forEach(c => {
+      const [u, h] = c.dataset.key.split("-");
+      const on = lines.some(l => l.u === u && l.h === h);
+      c.classList.toggle("on", on);
+      c.style.background = on ? byId[u].color : "";
+    });
+    countEl.textContent = lines.length;
+    attemptsEl.textContent = attempts;
+    undoBtn.disabled = !lines.length;
+    resetBtn.disabled = !lines.length && !attempts;
+    hint.style.display = lines.length || drawing ? "none" : "";
+    if (lines.length === 9) say("All nine connected without a crossing. That shouldn't be possible on a flat sheet. Tell a mathematician.", "win");
+  }
+
+  function say(msg, kind) {
+    statusEl.textContent = msg;
+    statusEl.className = "status" + (kind ? " " + kind : "");
+  }
+
+  function defaultStatus() {
+    const n = lines.length;
+    if (n === 0) return "Every house needs all three utilities.";
+    if (n < 8) return `${9 - n} connections to go.`;
+    if (n === 8) return "Eight down, one to go. See if you can find room for the last one.";
+    return "";
+  }
+
+  function clearHot() {
+    NODES.forEach(n => nodeEls[n.id].classList.remove("hot", "bad", "source"));
+  }
+
+  // ---- drawing ----
+  svg.addEventListener("pointerdown", e => {
+    if (e.button !== undefined && e.button !== 0) return;
+    const p = toSvg(e);
+    const n = nodeAt(p, R + 8);
+    if (!n) return;
+    e.preventDefault();
+    clearTimeout(rejectTimer);
+    marksG.innerHTML = "";
+    draft.classList.remove("rejected");
+    drawing = { from: n, pts: [[n.x, n.y]], crossings: [] };
+    draft.style.stroke = n.kind === "u" ? n.color : "var(--ink)";
+    draft.setAttribute("d", "");
+    nodeEls[n.id].classList.add("source");
+    hint.style.display = "none";
+    try { svg.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+
+  svg.addEventListener("pointermove", e => {
+    if (!drawing) return;
+    const p = toSvg(e);
+    const last = drawing.pts[drawing.pts.length - 1];
+    if (dist(p, last) < 3) return;
+    drawing.crossings.push(...crossingsFor(last, p).map(c => (addMark(c.pt), c)));
+    drawing.pts.push(p);
+    draft.setAttribute("d", toD(drawing.pts));
+    clearHot();
+    nodeEls[drawing.from.id].classList.add("source");
+    const over = nodeAt(p, R + 8);
+    if (over && over !== drawing.from) {
+      nodeEls[over.id].classList.add("hot");
+      if (!validPair(drawing.from, over)) nodeEls[over.id].classList.add("bad");
+    }
+  });
+
+  function validPair(a, b) {
+    if (a.kind === b.kind) return false;
+    const u = a.kind === "u" ? a : b, h = a.kind === "u" ? b : a;
+    return !lines.some(l => l.u === u.id && l.h === h.id);
+  }
+
+  function reject(msg) {
+    attempts++;
+    say(msg, "warn");
+    draft.classList.add("rejected");
+    marksG.querySelectorAll(".cross-mark").forEach(m => m.classList.add("fading"));
+    rejectTimer = setTimeout(() => {
+      draft.setAttribute("d", "");
+      draft.classList.remove("rejected");
+      marksG.innerHTML = "";
+    }, 1600);
+    if (lines.length === 8) document.getElementById("why").open = true;
+  }
+
+  function finish(e) {
+    if (!drawing) return;
+    const d = drawing;
+    drawing = null;
+    try { svg.releasePointerCapture(e.pointerId); } catch (_) {}
+    clearHot();
+    const last = d.pts[d.pts.length - 1];
+    const end = nodeAt(last, R + 10);
+
+    if (!end || end === d.from) {
+      // A tap on a node with no drag isn't an attempt.
+      if (d.pts.length < 4) { draft.setAttribute("d", ""); marksG.innerHTML = ""; say(defaultStatus()); render(); return; }
+      reject(d.from.kind === "u" ? "A line has to end on a house." : "A line has to end on a utility.");
+      render();
+      return;
+    }
+    if (end.kind === d.from.kind) {
+      reject(end.kind === "h" ? "Houses connect to utilities, not to each other." : "Utilities connect to houses, not to each other.");
+      render();
+      return;
+    }
+    const u = d.from.kind === "u" ? d.from : end;
+    const h = d.from.kind === "u" ? end : d.from;
+    if (lines.some(l => l.u === u.id && l.h === h.id)) {
+      reject(`${h.label} already has ${u.label.toLowerCase()}.`);
+      render();
+      return;
+    }
+    const pts = d.pts.concat([[end.x, end.y]]);
+    const tail = crossingsFor(last, [end.x, end.y]);
+    tail.forEach(c => addMark(c.pt));
+    // A crossing at a shared vertex is reported by both adjacent segments; count it once.
+    const crossings = d.crossings.concat(tail).filter((c, i, all) =>
+      all.findIndex(o => o.line === c.line && dist(o.pt, c.pt) < 3) === i);
+    if (crossings.length) {
+      const c = crossings[0].line;
+      const more = crossings.length > 1 ? ` (${crossings.length} crossings in all)` : "";
+      reject(`That line crosses the ${byId[c.u].label.toLowerCase()} line to ${byId[c.h].label}${more}.`);
+      render();
+      return;
+    }
+    const blocker = NODES.find(n => n !== d.from && n !== end &&
+      pts.some((p, i) => i && segPointDist(pts[i - 1], p, [n.x, n.y]) < R - 2));
+    if (blocker) {
+      addMark([blocker.x, blocker.y]);
+      reject(`That line runs straight through ${blocker.label === "Water" || blocker.label === "Gas" || blocker.label === "Electric" ? "the " + blocker.label.toLowerCase() + " plant" : blocker.label}.`);
+      render();
+      return;
+    }
+    lines.push({ u: u.id, h: h.id, pts: d.from.kind === "u" ? pts : pts.reverse() });
+    draft.setAttribute("d", "");
+    marksG.innerHTML = "";
+    say(defaultStatus());
+    render();
+  }
+
+  svg.addEventListener("pointerup", finish);
+  svg.addEventListener("pointercancel", () => {
+    drawing = null; clearHot(); draft.setAttribute("d", ""); marksG.innerHTML = ""; render();
+  });
+
+  undoBtn.addEventListener("click", () => {
+    const l = lines.pop();
+    if (l) say(`Removed the ${byId[l.u].label.toLowerCase()} line to ${byId[l.h].label}.`);
+    render();
+  });
+  resetBtn.addEventListener("click", () => {
+    lines = []; attempts = 0; marksG.innerHTML = ""; draft.setAttribute("d", "");
+    say(defaultStatus());
+    render();
+  });
+
+  say(defaultStatus());
+  render();
+})();
+</script>
+</body>
+</html>
