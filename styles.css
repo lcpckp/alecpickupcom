@@ -309,3 +309,190 @@ footer {
     max-width: 100%;
     display: block;
 }
+
+/* games showcase */
+.games-list {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    padding: 10px 0 20px 0;
+}
+
+.game h3 {
+    font-size: 18px;
+    font-weight: normal;
+    color: #ffffff;
+    margin: 14px 0 0 0;
+}
+
+.game-meta {
+    font-size: 15px;
+    color: #555555;
+    margin-bottom: 6px;
+    text-transform: lowercase;
+}
+
+.game-links a {
+    margin-right: 15px;
+}
+
+.shot {
+    display: block;
+    line-height: 0;
+    border: 1px solid #333333;
+    background-color: #0b0b0b;
+    overflow: hidden;
+    cursor: zoom-in;
+    transition: border-color 0.2s ease;
+}
+
+.shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease, opacity 0.2s ease;
+}
+
+.shot:hover,
+.shot:focus-visible {
+    border-color: #888888;
+    outline: none;
+}
+
+.shot:hover img,
+.shot:focus-visible img {
+    transform: scale(1.03);
+}
+
+.game-hero {
+    aspect-ratio: 16 / 9;
+}
+
+.game-4x3 .game-hero {
+    aspect-ratio: 4 / 3;
+}
+
+.shot-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.shot-strip .shot {
+    aspect-ratio: 16 / 9;
+}
+
+.game-4x3 .shot-strip .shot {
+    aspect-ratio: 4 / 3;
+}
+
+.phone-row {
+    display: flex;
+    gap: 10px;
+}
+
+.phone-row .shot {
+    flex: 1 1 0;
+    min-width: 0;
+    aspect-ratio: 9 / 16;
+    border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+    .games-list {
+        gap: 40px;
+    }
+
+    .shot-strip {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .phone-row {
+        flex-wrap: wrap;
+    }
+
+    .phone-row .shot {
+        flex: 0 0 calc(50% - 5px);
+    }
+}
+
+/* lightbox */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.94);
+    padding: 50px 60px;
+}
+
+.lightbox[hidden] {
+    display: none;
+}
+
+.lightbox figure {
+    margin: 0;
+    max-width: 100%;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lightbox img {
+    max-width: 100%;
+    max-height: calc(100vh - 130px);
+    border: 1px solid #333333;
+    display: block;
+}
+
+.lightbox figcaption {
+    color: #888888;
+    font-size: 16px;
+    margin-top: 12px;
+    text-align: center;
+}
+
+.lightbox button {
+    background: none;
+    border: none;
+    color: #888888;
+    font-family: 'Cutive Mono', monospace;
+    cursor: pointer;
+}
+
+.lightbox button:hover {
+    color: #ffffff;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    font-size: 18px;
+    text-decoration: underline;
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 32px;
+    padding: 20px 10px;
+}
+
+.lightbox-prev {
+    left: 6px;
+}
+
+.lightbox-next {
+    right: 6px;
+}
+
+body.lightbox-open {
+    overflow: hidden;
+}
